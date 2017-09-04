@@ -11,7 +11,7 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="C:/Users/krush/Desktop/telegrambots-3.3-jar-with-dependencies.jar"/>
+	<classpathentry kind="lib" path="C:/Work/TelegramBot/anonymous_chatbot/src/telegrambots-3.3-jar-with-dependencies.jar"/>
 	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
 		<attributes>
 			<attribute name="maven.pomderived" value="true"/>
