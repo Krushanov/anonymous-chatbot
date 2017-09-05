@@ -9,15 +9,15 @@ import org.telegram.telegrambots.api.objects.User;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 
 public class AnonymousChatBot extends TelegramLongPollingBot {
-	private Messager messager;
+	public Messager messager;
 	
 	public AnonymousChatBot() {
-		messager = new Messager();
+		messager = new Messager(this);
 	}
 	
 	@Override
 	public String getBotUsername() {
-		return "";
+		return "anon_chatbot";
 	}
 	
 	@Override
