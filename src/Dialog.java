@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 public class Dialog {
-	private ArrayList<User> users;
+	private ArrayList<MyUser> users;
 	private int maxSize;
 	private int interest;
 	
@@ -24,11 +24,11 @@ public class Dialog {
 		return result;
 	}
 	
-	public void addUser(User user) {
+	public void addUser(MyUser user) {
 		users.add(user);
 	}
 	
-	public void deleteUser(User user) {
+	public void deleteUser(MyUser user) {
 		users.remove(user);
 	}
 	

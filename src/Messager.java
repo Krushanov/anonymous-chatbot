@@ -10,13 +10,14 @@ public class Messager {
 	public Messager() {
 		freeDialogs = new ArrayList<List<Dialog>>();
 		busyDialogs = new ArrayList<List<Dialog>>();
+		users = new HashTable();
 	}
 	
-	private void sendMessage(User user, String text) {
+	private void sendMessage(MyUser user, String text) {
 		
 	}
 	
-	private void deleteUserFromDialog(User user) {
+	private void deleteUserFromDialog(MyUser user) {
 		
 	}
 	
@@ -28,11 +29,11 @@ public class Messager {
 		busyDialogs.get(dialog.getInterest()).add(dialog);
 	}
 	
-	private void addUserToFree(User user) {
+	private void addUserToFree(MyUser user) {
 		
 	}
 	
 	public void parsingUpdate(Update update) {
-		
+
 	}
 }
