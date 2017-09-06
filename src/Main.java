@@ -4,14 +4,14 @@ import org.telegram.telegrambots.TelegramBotsApi;
 public class Main {
 
 	public static void main(String[] args) {
-		System.out.println("Запускаю бот...");
+		System.out.println("Р—Р°РїСѓСЃРє Р±РѕС‚Р°...");
 		
 		ApiContextInitializer.init();
 		TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
 		
 		try {
 			telegramBotsApi.registerBot(new AnonymousChatBot());
-			System.out.println("Бот запущен.");
+			System.out.println("Р‘РѕС‚ Р·Р°РїСѓС‰РµРЅ.");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

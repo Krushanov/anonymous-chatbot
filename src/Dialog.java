@@ -25,7 +25,9 @@ public class Dialog {
 	}
 	
 	public void addUser(MyUser user) {
+		user.generateName("User " + users.size() + 1);
 		users.add(user);
+		
 	}
 	
 	public void deleteUser(MyUser user) {

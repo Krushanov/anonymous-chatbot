@@ -1,15 +1,14 @@
 package Command;
+import org.telegram.telegrambots.api.methods.updatingmessages.EditMessageText;
+
 import UI.TelegramButton;
 
 public class CloseDialogClicked implements Command {
 	private TelegramButton button;
-	
-	public CloseDialogClicked(TelegramButton button) {
-		this.button = button;
-	}
 
 	@Override
-	public void execute() {
-		button.closeDialogClicked();
+	public EditMessageText execute(TelegramButton tButton, EditMessageText editMessageText) {
+		button = tButton;
+		return null;
 	}
 }

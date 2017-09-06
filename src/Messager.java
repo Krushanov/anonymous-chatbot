@@ -7,22 +7,55 @@ import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 
+import Command.CloseDialogClicked;
+import Command.Command;
+import Command.CompanionCountClicked;
+import Command.HelpButtonClicked;
+import Command.MainMenuClicked;
+import Command.SearchCompanionClicked;
+import Command.SelectInterestClicked;
 import UI.TelegramButton;
 
 public class Messager {
 	private AnonymousChatBot anonymousChatBot;
 	private TelegramButton button;
 	
-	HashTable users;
-	List<List<Dialog>> freeDialogs;
-	List<List<Dialog>> busyDialogs;
+	private HashTable users;
+	private List<List<Dialog>> freeDialogs;
+	private List<List<Dialog>> busyDialogs;
 	
+	//Commands
+	private Command searchCompanionCommand;
+	private Command selectInterestCommand;
+	private Command companionCountCommand;
+	private Command helpCommand;
+	private Command closeDialogCommand;
+	private Command mainMenuCommand;
+
 	public Messager(AnonymousChatBot anonymousChatBot) {
 		this.anonymousChatBot = anonymousChatBot;
+		initObjects();
+		initCommands();
+	}
+	
+	// Init
+	
+	private void initObjects() {
 		freeDialogs = new ArrayList<List<Dialog>>();
 		busyDialogs = new ArrayList<List<Dialog>>();
 		users = new HashTable();
 	}
+	
+	private void initCommands() {
+		this.searchCompanionCommand = new SearchCompanionClicked();
+		this.selectInterestCommand = new SelectInterestClicked();
+		this.companionCountCommand = new CompanionCountClicked();
+		this.helpCommand = new HelpButtonClicked();
+		this.closeDialogCommand = new CloseDialogClicked();
+		this.mainMenuCommand = new MainMenuClicked();
+	}
+	
+	// end Init
 	
 	private void sendMessage(MyUser user, String text) {
 
@@ -51,25 +84,31 @@ public class Messager {
 		
 		if (update.hasMessage() && update.getMessage().hasText()) {
 			switch (update.getMessage().getText()) {
+			
 			case "/start":
-				sendMessage = new SendMessage(message.getChatId(), "Добро пожаловать в Anonymous ChatBot, сервис для анонимного общения в сети Telegram.");
+				sendMessage = new SendMessage(message.getChatId(), "пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ Anonymous ChatBot, пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ Telegram.");
 				testMessage(sendMessage);
 				showMainMenu(message.getChatId());
 				break;
+			
 			case "/commands":
 				showMainMenu(message.getChatId());
+				break;
+			
 			case "/stopchat":
-				sendMessage = new SendMessage(message.getChatId(), "Беседа завершена.");
+				sendMessage = new SendMessage(message.getChatId(), "пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.");
 				testMessage(sendMessage);
 				showMainMenu(message.getChatId());
 				break;
+			
 			default:
-				// Обработать как сообщение
+				// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 				break;
 			}
 			
 		} else if (update.hasCallbackQuery()) {
 			String callData = update.getCallbackQuery().getData();
+			
 			long messageId = update.getCallbackQuery().getMessage().getMessageId();
             long chatId = update.getCallbackQuery().getMessage().getChatId();
             
@@ -77,48 +116,63 @@ public class Messager {
             EditMessageText newMessage = new EditMessageText();
             
             switch (callData) {
+            
             case "searchCompanion":
-				answer = "Поиск собеседника...";
+				answer = "пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ...";
                 newMessage.setChatId(chatId).setMessageId((int)(long)(messageId)).setText(answer);
+                
                 try {
                 	button = new TelegramButton();
-                    anonymousChatBot.editMessageText(button.searchCompanionClicked(newMessage));
+                    anonymousChatBot.editMessageText(button.onClick(searchCompanionCommand, newMessage));
                 } catch (TelegramApiException e) {
                     e.printStackTrace();
                 }
-				break;
+				
+                break;
             
 			case "help":
-				answer = "Здесь будут описаны команды.";
+				answer = "пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ.";
                 newMessage.setChatId(chatId).setMessageId((int)(long)(messageId)).setText(answer);
+                
                 try {
                 	button = new TelegramButton();
-                    anonymousChatBot.editMessageText(button.helpClicked(newMessage));
+                    anonymousChatBot.editMessageText(button.onClick(helpCommand, newMessage));
                 } catch (TelegramApiException e) {
                     e.printStackTrace();
                 }
-				break;
+				
+                break;
 				
 			case "back":
-				answer = "Выберите команду:";
+				answer = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ:";
                 newMessage.setChatId(chatId).setMessageId((int)(long)(messageId)).setText(answer);
+                
                 try {
                 	button = new TelegramButton();
-                    anonymousChatBot.editMessageText(button.backClicked(newMessage));
+                    anonymousChatBot.editMessageText(button.onClick(mainMenuCommand, newMessage));
                 } catch (TelegramApiException e) {
                     e.printStackTrace();
                 }
+                
                 break;
                 
 			case "cancelSearchCompanion":
-				answer = "Выберите команду:";
+				answer = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ:";
                 newMessage.setChatId(chatId).setMessageId((int)(long)(messageId)).setText(answer);
+                
                 try {
                 	button = new TelegramButton();
-                    anonymousChatBot.editMessageText(button.cancelSearchCompanionClicked(newMessage));
+                	
+                	/* пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ,
+                	 * пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ.
+                	 */
+                	
+                    anonymousChatBot.editMessageText(button.onClick(mainMenuCommand, newMessage));
+                    
                 } catch (TelegramApiException e) {
                     e.printStackTrace();
                 }
+                
                 break;
 
 			default:
@@ -128,9 +182,9 @@ public class Messager {
 	}
 	
 	private void showMainMenu(Long chatId) {
-		SendMessage sendMessage = new SendMessage(chatId, "Выберите команду:");
+		SendMessage sendMessage = new SendMessage(chatId, "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ:");
 		button = new TelegramButton();
-		testMessage(button.mainMenuClicked(sendMessage));
+	//	anonymousChatBot.editMessageText(button.onClick(mainMenuCommand, sendMessage));
 	}
 
 	private void testMessage(SendMessage sendMessage) {

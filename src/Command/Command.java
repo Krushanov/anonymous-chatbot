@@ -1,5 +1,9 @@
 package Command;
 
+import org.telegram.telegrambots.api.methods.updatingmessages.EditMessageText;
+
+import UI.TelegramButton;
+
 public interface Command {
-	void execute();
+	public EditMessageText execute(TelegramButton tButton, EditMessageText editMessageText);
 }

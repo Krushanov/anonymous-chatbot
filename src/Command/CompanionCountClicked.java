@@ -1,15 +1,14 @@
 package Command;
+import org.telegram.telegrambots.api.methods.updatingmessages.EditMessageText;
+
 import UI.TelegramButton;
 
 public class CompanionCountClicked implements Command {
 	private TelegramButton button;
-	
-	public CompanionCountClicked(TelegramButton button) {
-		this.button = button;
-	}
 
 	@Override
-	public void execute() {
-		button.companionCountClicked();
+	public EditMessageText execute(TelegramButton tButton, EditMessageText editMessageText) {
+		button = tButton;
+		return null;
 	}
 }
