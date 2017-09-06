@@ -1,3 +1,5 @@
+package Main;
+
 import java.util.ArrayList;
 
 public class HashTable {
@@ -63,5 +65,11 @@ public class HashTable {
 		}
 			
 		return result;
+	}
+
+	public MyUser searchUser(int userID) {
+		int i = getHash(userID + "");
+
+		return users.get(i);
 	}
 }

@@ -1,3 +1,5 @@
+package Main;
+
 import java.util.ArrayList;
 
 public class Dialog {
@@ -25,7 +27,7 @@ public class Dialog {
 	}
 	
 	public void addUser(MyUser user) {
-		user.generateName("User " + users.size() + 1);
+		user.generateName("Main.User " + users.size() + 1);
 		users.add(user);
 		
 	}

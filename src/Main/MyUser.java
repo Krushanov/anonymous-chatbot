@@ -1,3 +1,4 @@
+package Main;
 
 public class MyUser {
 	private Dialog dialog;
