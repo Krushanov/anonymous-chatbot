@@ -11,7 +11,7 @@ public class HelpButtonClicked implements Command {
 	public EditMessageText execute(TelegramButton tButton, EditMessageText editMessageText) {
 		button = tButton;
 		
-		button.firstRow.add(new InlineKeyboardButton().setText("Õ‡Á‡‰").setCallbackData("back"));
+		button.firstRow.add(new InlineKeyboardButton().setText("–ù–∞–∑–∞–¥").setCallbackData("back"));
 		button.rowsInline.add(button.firstRow);
 		button.markupInline.setKeyboard(button.rowsInline);
         editMessageText.setReplyMarkup(button.markupInline);

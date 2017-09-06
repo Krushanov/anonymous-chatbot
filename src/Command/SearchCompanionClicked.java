@@ -15,7 +15,7 @@ public class SearchCompanionClicked implements Command {
 	public EditMessageText execute(TelegramButton tButton, EditMessageText editMessageText) {
 		button = tButton;
 		
-		button.firstRow.add(new InlineKeyboardButton().setText("ŒÚÏÂÌ‡").setCallbackData("cancelSearchCompanion"));
+		button.firstRow.add(new InlineKeyboardButton().setText("–û—Ç–º–µ–Ω–∞").setCallbackData("cancelSearchCompanion"));
 		button.rowsInline.add(button.firstRow);
 		button.markupInline.setKeyboard(button.rowsInline);
         editMessageText.setReplyMarkup(button.markupInline);

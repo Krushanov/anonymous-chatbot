@@ -19,10 +19,13 @@ public class TelegramButton {
 	public List<InlineKeyboardButton> secondRow = new ArrayList<>();   
 	public List<InlineKeyboardButton> thirdRow = new ArrayList<>();  
 	public List<InlineKeyboardButton> fourthRow = new ArrayList<>();
-    
-	public TelegramButton() { }
-	
+	public List<InlineKeyboardButton> fifthRow = new ArrayList<>();
+    public List<InlineKeyboardButton> sixthRow = new ArrayList<>();
+	public List<InlineKeyboardButton> seventhRow = new ArrayList<>();
+
+    public TelegramButton() { }
+
 	public EditMessageText onClick(Command command, EditMessageText editMessageText) {
-		 return command.execute(this, editMessageText);
+		return command.execute(this, editMessageText);
 	}
 }

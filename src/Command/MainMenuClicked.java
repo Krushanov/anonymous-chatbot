@@ -16,10 +16,10 @@ public class MainMenuClicked implements Command {
 	public EditMessageText execute(TelegramButton tButton, EditMessageText editMessageText) {
 		button = tButton;
 		
-		button.firstRow.add(new InlineKeyboardButton().setText("Найти собеседника").setCallbackData("searchCompanion"));
-        button.secondRow.add(new InlineKeyboardButton().setText("Выбрать тематику переписки").setCallbackData("selectInterest"));
-        button.thirdRow.add(new InlineKeyboardButton().setText("Задать кол-во собеседников").setCallbackData("companionCount"));
-        button.fourthRow.add(new InlineKeyboardButton().setText("Помощь").setCallbackData("help"));
+		button.firstRow.add(new InlineKeyboardButton().setText("РќР°Р№С‚Рё СЃРѕР±РµСЃРµРґРЅРёРєР°").setCallbackData("searchCompanion"));
+        button.secondRow.add(new InlineKeyboardButton().setText("Р’С‹Р±СЂР°С‚СЊ С‚РµРјР°С‚РёРєСѓ РїРµСЂРµРїРёСЃРєРё").setCallbackData("selectInterest"));
+        button.thirdRow.add(new InlineKeyboardButton().setText("Р—Р°РґР°С‚СЊ РєРѕР»-РІРѕ СЃРѕР±РµСЃРµРґРЅРёРєРѕРІ").setCallbackData("companionCount"));
+        button.fourthRow.add(new InlineKeyboardButton().setText("РџРѕРјРѕС‰СЊ").setCallbackData("help"));
         
         button.rowsInline.add(button.firstRow);
         button.rowsInline.add(button.secondRow);

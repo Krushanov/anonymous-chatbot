@@ -22,7 +22,11 @@ public class AnonymousChatBot extends TelegramLongPollingBot {
 	
 	@Override
 	public void onUpdateReceived(Update update) {
-		messager.parsingUpdate(update);
+		try {
+			messager.parsingUpdate(update);
+		} catch (TelegramApiException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@Override
