@@ -3,6 +3,7 @@ package UI;
 import java.util.ArrayList;
 import java.util.List;
 
+import Language.Language;
 import Main.AnonymousChatBot;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.methods.updatingmessages.EditMessageText;
@@ -30,7 +31,7 @@ public class TelegramButton {
         this.bot = bot;
     }
 
-	public EditMessageText onClick(Command command, EditMessageText editMessageText) {
-        return command.execute(this, editMessageText, bot);
+	public EditMessageText onClick(Command command, EditMessageText editMessageText, Language language) {
+        return command.execute(this, editMessageText, bot, language);
     }
 }

@@ -1,4 +1,5 @@
 package Command;
+import Language.Language;
 import Main.AnonymousChatBot;
 import org.telegram.telegrambots.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.api.objects.replykeyboard.buttons.InlineKeyboardButton;
@@ -10,7 +11,7 @@ public class CanselSearchCompanionClicked implements Command {
 	private TelegramButton button;
 
 	@Override
-	public EditMessageText execute(TelegramButton tButton, EditMessageText editMessageText, AnonymousChatBot bot) {
+	public EditMessageText execute(TelegramButton tButton, EditMessageText editMessageText, AnonymousChatBot bot, Language language) {
 		button = tButton;
 		return null;
 	}

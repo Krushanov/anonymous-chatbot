@@ -1,6 +1,9 @@
 package Main;
 
+import Language.Language;
+
 public class Interest {
+    public Language language;
 	public final static int DEFAULT = 0;
 	public final static int MUSIC = 1;
     public final static int FILMS = 2;
@@ -9,17 +12,29 @@ public class Interest {
     public final static int SEX = 5;
     public final static int PSYHOLOGY = 6;
 
-    private static String [] STRINGS = {
-            "Отлично! Теперь вы будете общаться на любые темы.",
-            "Отлично! Теперь вы будете говорить о музыке.",
-            "Отлично! Теперь вы будете говорить о фильмах.",
-            "Отлично! Теперь вы будете говорить об играх.",
-            "Отлично! Теперь вы будете говорить об IT.",
-            "Отлично! Теперь вы будете говорить о сексе.",
-            "Отлично! Теперь вы будете говорить о психологии."
-    };
+    private String [] STRINGS;
 
-    public static String getString(int i) {
+    public Interest(Language language) {
+        this.language = language;
+        setStrings();
+    }
+
+    private void setStrings() {
+
+        STRINGS = new String[] {
+            language.getString("defaultInterest"),
+            language.getString("musicInterest"),
+            language.getString("filmsInterest"),
+            language.getString("gamesInterest"),
+            language.getString("itInterest"),
+            language.getString("sexInterest"),
+            language.getString("psyhologyInterest"),
+        };
+
+    }
+
+    public String getString(int i) {
         return STRINGS[i];
     }
+
 }

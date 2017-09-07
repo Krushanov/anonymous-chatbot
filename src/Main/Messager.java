@@ -3,6 +3,7 @@ package Main;
 import java.util.ArrayList;
 import java.util.List;
 
+import Language.Language;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.api.objects.Message;
@@ -22,6 +23,8 @@ public class Messager {
 	private AnonymousChatBot anonymousChatBot;
 	private HashTable users;
     private MyUser user;
+    public Language language;
+    private Interest interest;
 
 	private List<List<Dialog>> freeDialogs;
 	private List<List<Dialog>> busyDialogs;
@@ -49,6 +52,7 @@ public class Messager {
 		busyDialogs = new ArrayList<List<Dialog>>();
 		users = new HashTable();
 		button = new TelegramButton(anonymousChatBot);
+		language = new Language();
 	}
 	
 	private void initCommands() {
@@ -98,7 +102,7 @@ public class Messager {
             switch (update.getMessage().getText()) {
 
 			case "/start":
-				SendMessage sendMessage1 = new SendMessage(message.getChatId(), "Добро пожаловать в Anonymous ChatBot, сервис для анонимного общения в сети Telegram.");
+				SendMessage sendMessage1 = new SendMessage(message.getChatId(), language.getString("/start"));
 				testMessage(sendMessage1);
 				showMainMenu(message.getChatId());
 				break;
@@ -108,13 +112,13 @@ public class Messager {
 				break;
 
 			case "/stopchat":
-				SendMessage sendMessage2 = new SendMessage(message.getChatId(), "Вы покинули чат.");
+				SendMessage sendMessage2 = new SendMessage(message.getChatId(), language.getString("/stopchat"));
 				testMessage(sendMessage2);
 				showMainMenu(message.getChatId());
 				break;
 
 			case "/about":
-				SendMessage sendMessage3 = new SendMessage(message.getChatId(), "Информация о кисях разработчиках.");
+				SendMessage sendMessage3 = new SendMessage(message.getChatId(), language.getString("/about"));
 				testMessage(sendMessage3);
 				showMainMenu(message.getChatId());
 				break;
@@ -137,47 +141,42 @@ public class Messager {
             switch (callData) {
             
             case "searchCompanion":
-				String answer1 = "Поиск собеседника...";
 				EditMessageText newMessage1 = new EditMessageText();
-				newMessage1.setChatId(chatId).setMessageId((int)(long)(messageId)).setText(answer1);
+				newMessage1.setChatId(chatId).setMessageId((int)(long)(messageId)).setText(language.getString("searchCompanion"));
                 button = new TelegramButton(anonymousChatBot);
-				anonymousChatBot.editMessageText(button.onClick(searchCompanionCommand, newMessage1));
+				anonymousChatBot.editMessageText(button.onClick(searchCompanionCommand, newMessage1, language));
 				
                 break;
             
 			case "help":
-				String answer2 = "Здесь будет описание команд.";
 				EditMessageText newMessage2 = new EditMessageText();
-				newMessage2.setChatId(chatId).setMessageId((int)(long)(messageId)).setText(answer2);
+				newMessage2.setChatId(chatId).setMessageId((int)(long)(messageId)).setText(language.getString("help"));
                 button = new TelegramButton(anonymousChatBot);
-				anonymousChatBot.editMessageText(button.onClick(helpCommand, newMessage2));
+				anonymousChatBot.editMessageText(button.onClick(helpCommand, newMessage2, language));
 
                 break;
 				
 			case "back":
-				String answer3 = "Выберите команду:";
 				EditMessageText newMessage3 = new EditMessageText();
-				newMessage3.setChatId(chatId).setMessageId((int)(long)(messageId)).setText(answer3);
+				newMessage3.setChatId(chatId).setMessageId((int)(long)(messageId)).setText(language.getString("selectCommand"));
                 button = new TelegramButton(anonymousChatBot);
-				anonymousChatBot.editMessageText(button.onClick(mainMenuCommand, newMessage3));
+				anonymousChatBot.editMessageText(button.onClick(mainMenuCommand, newMessage3, language));
 
                 break;
                 
 			case "cancelSearchCompanion":
-				String answer4 = "Выберите команду:";
 				EditMessageText newMessage4 = new EditMessageText();
-				newMessage4.setChatId(chatId).setMessageId((int)(long)(messageId)).setText(answer4);
+				newMessage4.setChatId(chatId).setMessageId((int)(long)(messageId)).setText(language.getString("selectCommand"));
                 button = new TelegramButton(anonymousChatBot);
-				anonymousChatBot.editMessageText(button.onClick(mainMenuCommand, newMessage4));
+				anonymousChatBot.editMessageText(button.onClick(mainMenuCommand, newMessage4, language));
                 
                 break;
 
 			case "selectInterest":
-				String answer5 = "Выберите тематику переписки:";
 				EditMessageText newMessage5 = new EditMessageText();
-				newMessage5.setChatId(chatId).setMessageId((int)(long)(messageId)).setText(answer5);
+				newMessage5.setChatId(chatId).setMessageId((int)(long)(messageId)).setText(language.getString("selectInterest"));
                 button = new TelegramButton(anonymousChatBot);
-				anonymousChatBot.editMessageText(button.onClick(selectInterestCommand, newMessage5));
+				anonymousChatBot.editMessageText(button.onClick(selectInterestCommand, newMessage5, language));
 
 				break;
 
@@ -190,12 +189,13 @@ public class Messager {
             case "/setInterest 5":
             case "/setInterest 6":
                 int index = Integer.parseInt( callData.substring(13) );
-				String answer = Interest.getString(index);
+				interest = new Interest(language);
+				String answer = interest.getString(index);
 				EditMessageText newMessage = new EditMessageText();
 				newMessage.setChatId(chatId).setMessageId((int)(long)(messageId)).setText(answer);
                 user.setInterest(index);
                 button = new TelegramButton(anonymousChatBot);
-				anonymousChatBot.editMessageText(button.onClick(mainMenuCommand, newMessage));
+				anonymousChatBot.editMessageText(button.onClick(mainMenuCommand, newMessage, language));
 
                 break;
 
@@ -206,14 +206,14 @@ public class Messager {
 	}
 	
 	private void showMainMenu(Long chatId) {
-		SendMessage sendMessage = new SendMessage(chatId, "Выберите команду:");
+		SendMessage sendMessage = new SendMessage(chatId, language.getString("selectCommand"));
 		Message message1 = testMessage(sendMessage);
 
 		EditMessageText newMessage = new EditMessageText();
-		newMessage.setChatId(chatId).setMessageId(message1.getMessageId()).setText("Выберите команду:");
+		newMessage.setChatId(chatId).setMessageId(message1.getMessageId()).setText(language.getString("selectCommand"));
 
 		try {
-			anonymousChatBot.editMessageText(button.onClick(mainMenuCommand, newMessage));
+			anonymousChatBot.editMessageText(button.onClick(mainMenuCommand, newMessage, language));
 		} catch (TelegramApiException e) {
 			e.printStackTrace();
 		}
@@ -239,4 +239,5 @@ public class Messager {
 	public MyUser getUser() {
 	    return user;
     }
+
 }

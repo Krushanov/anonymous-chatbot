@@ -1,4 +1,5 @@
 package Command;
+import Language.Language;
 import Main.AnonymousChatBot;
 import org.telegram.telegrambots.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.api.objects.replykeyboard.buttons.InlineKeyboardButton;
@@ -15,13 +16,13 @@ public class MainMenuClicked implements Command {
 	}
 
 	@Override
-	public EditMessageText execute(TelegramButton tButton, EditMessageText editMessageText, AnonymousChatBot bot) {
+	public EditMessageText execute(TelegramButton tButton, EditMessageText editMessageText, AnonymousChatBot bot, Language language) {
 		button = tButton;
 
-		button.firstRow.add(new InlineKeyboardButton().setText("Найти собеседника").setCallbackData("searchCompanion"));
-        button.secondRow.add(new InlineKeyboardButton().setText("Выбрать тематику переписки").setCallbackData("selectInterest"));
-        button.thirdRow.add(new InlineKeyboardButton().setText("Задать кол-во собеседников").setCallbackData("companionCount"));
-        button.fourthRow.add(new InlineKeyboardButton().setText("Помощь").setCallbackData("help"));
+		button.firstRow.add(new InlineKeyboardButton().setText(language.getString("searchCompanionButton")).setCallbackData("searchCompanion"));
+        button.secondRow.add(new InlineKeyboardButton().setText(language.getString("selectInterestButton")).setCallbackData("selectInterest"));
+        button.thirdRow.add(new InlineKeyboardButton().setText(language.getString("companionCountButton")).setCallbackData("companionCount"));
+        button.fourthRow.add(new InlineKeyboardButton().setText(language.getString("helpButton")).setCallbackData("help"));
         
         button.rowsInline.add(button.firstRow);
         button.rowsInline.add(button.secondRow);

@@ -1,4 +1,5 @@
 package Command;
+import Language.Language;
 import Main.AnonymousChatBot;
 import org.telegram.telegrambots.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.api.objects.replykeyboard.buttons.InlineKeyboardButton;
@@ -14,10 +15,10 @@ public class SearchCompanionClicked implements Command {
 	}
 
 	@Override
-	public EditMessageText execute(TelegramButton tButton, EditMessageText editMessageText, AnonymousChatBot bot) {
+	public EditMessageText execute(TelegramButton tButton, EditMessageText editMessageText, AnonymousChatBot bot, Language language) {
 		button = tButton;
 		
-		button.firstRow.add(new InlineKeyboardButton().setText("Отмена").setCallbackData("cancelSearchCompanion"));
+		button.firstRow.add(new InlineKeyboardButton().setText(language.getString("cancelButton")).setCallbackData("cancelSearchCompanion"));
 		button.rowsInline.add(button.firstRow);
 		button.markupInline.setKeyboard(button.rowsInline);
         editMessageText.setReplyMarkup(button.markupInline);
