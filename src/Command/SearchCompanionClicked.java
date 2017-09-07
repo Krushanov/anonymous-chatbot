@@ -20,6 +20,7 @@ public class SearchCompanionClicked implements Command {
 		
 		button.firstRow.add(new InlineKeyboardButton().setText(language.getString("cancelButton")).setCallbackData("cancelSearchCompanion"));
 		button.rowsInline.add(button.firstRow);
+
 		button.markupInline.setKeyboard(button.rowsInline);
         editMessageText.setReplyMarkup(button.markupInline);
         

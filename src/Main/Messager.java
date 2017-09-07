@@ -17,6 +17,7 @@ import Command.HelpButtonClicked;
 import Command.MainMenuClicked;
 import Command.SearchCompanionClicked;
 import Command.SelectInterestClicked;
+import Command.SelectLanguageClicked;
 import UI.TelegramButton;
 
 public class Messager {
@@ -38,6 +39,7 @@ public class Messager {
 	private Command helpCommand;
 	private Command closeDialogCommand;
 	private Command mainMenuCommand;
+	private Command selectLanguageCommand;
 
 	public Messager(AnonymousChatBot anonymousChatBot) {
 		this.anonymousChatBot = anonymousChatBot;
@@ -62,6 +64,7 @@ public class Messager {
 		this.helpCommand = new HelpButtonClicked();
 		this.closeDialogCommand = new CloseDialogClicked();
 		this.mainMenuCommand = new MainMenuClicked();
+		this.selectLanguageCommand = new SelectLanguageClicked();
 	}
 	
 	// end Init
@@ -188,16 +191,36 @@ public class Messager {
             case "/setInterest 4":
             case "/setInterest 5":
             case "/setInterest 6":
-                int index = Integer.parseInt( callData.substring(13) );
+                int indexInterest = Integer.parseInt( callData.substring(13) );
 				interest = new Interest(language);
-				String answer = interest.getString(index);
-				EditMessageText newMessage = new EditMessageText();
-				newMessage.setChatId(chatId).setMessageId((int)(long)(messageId)).setText(answer);
-                user.setInterest(index);
+				String answerInterest = interest.getString(indexInterest);
+				EditMessageText newMessage6 = new EditMessageText();
+				newMessage6.setChatId(chatId).setMessageId((int)(long)(messageId)).setText(answerInterest);
+                user.setInterest(indexInterest);
                 button = new TelegramButton(anonymousChatBot);
-				anonymousChatBot.editMessageText(button.onClick(mainMenuCommand, newMessage, language));
+				anonymousChatBot.editMessageText(button.onClick(mainMenuCommand, newMessage6, language));
 
                 break;
+
+			case "selectLanguage":
+				EditMessageText newMessage7 = new EditMessageText();
+				newMessage7.setChatId(chatId).setMessageId((int)(long)(messageId)).setText(language.getString("selectLanguage"));
+				button = new TelegramButton(anonymousChatBot);
+				anonymousChatBot.editMessageText(button.onClick(selectLanguageCommand, newMessage7, language));
+
+				break;
+
+			case "/setLanguage 0":
+			case "/setLanguage 1":
+				int indexLanguage = Integer.parseInt( callData.substring(13) );
+				String answerLanguage = language.getLanguageName(indexLanguage);
+				EditMessageText newMessage8 = new EditMessageText();
+				newMessage8.setChatId(chatId).setMessageId((int)(long)(messageId)).setText(answerLanguage);
+				user.setLanguage(indexLanguage);
+				language.setLanguage(indexLanguage);
+				button = new TelegramButton(anonymousChatBot);
+				anonymousChatBot.editMessageText(button.onClick(mainMenuCommand, newMessage8, language));
+				break;
 
 			default:
 				break;

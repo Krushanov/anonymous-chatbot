@@ -5,13 +5,11 @@ import java.util.List;
 
 import Language.Language;
 import Main.AnonymousChatBot;
-import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 
 import Command.Command;
-import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 
 public class TelegramButton {
 	

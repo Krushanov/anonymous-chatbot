@@ -6,6 +6,7 @@ public class MyUser {
 	private long chatID;
 	private String nameGenerated;
 	private int interest;
+	private int language;
 	
 	public MyUser(int userID, long chatID) {
 		this.userID = userID;
@@ -39,4 +40,13 @@ public class MyUser {
 	public int getInterest() {
 		return interest;
 	}
+
+    public void setLanguage(int language) {
+        this.language = language;
+    }
+
+	public int getLanguage() {
+		return language;
+	}
+
 }

@@ -22,12 +22,14 @@ public class MainMenuClicked implements Command {
 		button.firstRow.add(new InlineKeyboardButton().setText(language.getString("searchCompanionButton")).setCallbackData("searchCompanion"));
         button.secondRow.add(new InlineKeyboardButton().setText(language.getString("selectInterestButton")).setCallbackData("selectInterest"));
         button.thirdRow.add(new InlineKeyboardButton().setText(language.getString("companionCountButton")).setCallbackData("companionCount"));
-        button.fourthRow.add(new InlineKeyboardButton().setText(language.getString("helpButton")).setCallbackData("help"));
+        button.fourthRow.add(new InlineKeyboardButton().setText(language.getString("selectLanguageButton")).setCallbackData("selectLanguage"));
+        button.fifthRow.add(new InlineKeyboardButton().setText(language.getString("helpButton")).setCallbackData("help"));
         
         button.rowsInline.add(button.firstRow);
         button.rowsInline.add(button.secondRow);
         button.rowsInline.add(button.thirdRow);
         button.rowsInline.add(button.fourthRow);
+        button.rowsInline.add(button.fifthRow);
         
         button.markupInline.setKeyboard(button.rowsInline);
         editMessageText.setReplyMarkup(button.markupInline);
