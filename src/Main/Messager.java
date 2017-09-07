@@ -27,8 +27,8 @@ public class Messager {
     public Language language;
     private Interest interest;
 
-	private List<List<Dialog>> freeDialogs;
-	private List<List<Dialog>> busyDialogs;
+	private List<List<List<Dialog>>> freeDialogs;
+	private List<List<List<Dialog>>> busyDialogs;
 
 	private TelegramButton button;
 	
@@ -50,8 +50,19 @@ public class Messager {
 	// Init
 	
 	private void initObjects() {
-		freeDialogs = new ArrayList<List<Dialog>>();
-		busyDialogs = new ArrayList<List<Dialog>>();
+		freeDialogs = new ArrayList<List<List<Dialog>>>();
+		busyDialogs = new ArrayList<List<List<Dialog>>>();
+
+		for (int i = 0; i < 3; i++) {
+			freeDialogs.add(new ArrayList<List<Dialog>>());
+			busyDialogs.add(new ArrayList<List<Dialog>>());
+
+			for (int j = 0; j < 7; j++) {
+				freeDialogs.get(i).add(new ArrayList<Dialog>());
+				busyDialogs.get(i).add(new ArrayList<Dialog>());
+			}
+		}
+
 		users = new HashTable();
 		button = new TelegramButton(anonymousChatBot);
 		language = new Language();
@@ -78,16 +89,56 @@ public class Messager {
 	}
 	
 	private void addDialogFree(Dialog dialog) {
-		freeDialogs.get(dialog.getInterest()).add(dialog);
+		freeDialogs.get(dialog.getMaxSize() - 2).get(dialog.getInterest()).add(dialog);
 	}
 	
 	private void addBusyDialog(Dialog dialog) {
-		busyDialogs.get(dialog.getInterest()).add(dialog);
+		busyDialogs.get(dialog.getMaxSize() - 2).get(dialog.getInterest()).add(dialog);
 	}
 	
 	private void addUserToFree(MyUser user) {
-		
+		int i = user.getCountCompanion() - 2;
+		int j = user.getInterest();
+
+		Dialog dialog =
+				freeDialogs.get(i).get(j).size() > 0 ?
+						freeDialogs.get(i).get(j).get(0)
+						: new Dialog(user.getInterest(), user.getCountCompanion(), anonymousChatBot);
+
+			user.setDialog(dialog);
+        try {
+            dialog.addUser(user);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
+        addDialogFree(dialog);
+
+			System.out.println("added");
+
+			if (!dialog.hasFree()) {
+                System.out.print("ddddddd");
+                addBusyDialog(dialog);
+            }
+
+			System.out.println(dialog.getCount());
 	}
+
+	private void deleteUser(MyUser user) {
+	    if (!user.getDialog().hasFree())
+	        addDialogFree(user.getDialog());
+
+	    user.getDialog().deleteUser(user);
+
+	    System.out.println("deleted");
+    }
+
+    private void initUser(int userID, long chatID) {
+		if ( (user = users.searchUser(userID)) == null ) {
+			user = new MyUser(userID, chatID);
+			users.addUser(user);
+		}
+	}
+
 	
 	public void parsingUpdate(Update update) throws TelegramApiException {
 		Message message = update.getMessage();
@@ -96,11 +147,9 @@ public class Messager {
 		if (update.hasMessage() && update.getMessage().hasText()) {
 			int userID = update.getMessage().getFrom().getId();
 			long chatID = update.getMessage().getChatId();
+			messageText = update.getMessage().getText();
 
-		    if ( (user = users.searchUser(userID)) == null ) {
-                user = new MyUser(userID, chatID);
-                users.addUser(user);
-            }
+		    initUser(userID, chatID);
 
             switch (update.getMessage().getText()) {
 
@@ -115,6 +164,11 @@ public class Messager {
 				break;
 
 			case "/stopchat":
+
+			    if (user.hasDialog()) {
+                    deleteUser(user);
+                }
+
 				SendMessage sendMessage2 = new SendMessage(message.getChatId(), language.getString("/stopchat"));
 				testMessage(sendMessage2);
 				showMainMenu(message.getChatId());
@@ -131,15 +185,23 @@ public class Messager {
 				break;
 
 			default:
-				// обработать как сообщение
+				if (user.hasDialog()) {
+					user.getDialog().sendMessage(user, messageText);
+					System.out.println("send");
+				}
+
 				break;
 			}
 
 		} else if (update.hasCallbackQuery()) {
 			String callData = update.getCallbackQuery().getData();
-			
+
+			int userID = update.getCallbackQuery().getFrom().getId();
+
 			long messageId = update.getCallbackQuery().getMessage().getMessageId();
             long chatId = update.getCallbackQuery().getMessage().getChatId();
+
+			initUser(userID, chatId);
 
             switch (callData) {
             
@@ -148,6 +210,7 @@ public class Messager {
 				newMessage1.setChatId(chatId).setMessageId((int)(long)(messageId)).setText(language.getString("searchCompanion"));
                 button = new TelegramButton(anonymousChatBot);
 				anonymousChatBot.editMessageText(button.onClick(searchCompanionCommand, newMessage1, language));
+				addUserToFree(user);
 				
                 break;
             

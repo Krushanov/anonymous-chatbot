@@ -7,18 +7,37 @@ public class MyUser {
 	private String nameGenerated;
 	private int interest;
 	private int language;
+	private int countCompanion;
 	
 	public MyUser(int userID, long chatID) {
 		this.userID = userID;
 		this.chatID = chatID;
+		dialog = null;
+		countCompanion = 2;
 	}
 	
-	public void generateName(String name) {
-		
+	public void generateName(int number) {
+		nameGenerated = "User " + number + ": ";
+	}
+
+	public String getNameGenerated() {
+		return nameGenerated;
+	}
+
+	public void setCountCompanion(int countCompanion) {
+		this.countCompanion = countCompanion;
+	}
+
+	public int getCountCompanion() {
+		return countCompanion;
 	}
 	
 	public int getUserID() {
 		return userID;
+	}
+
+	public boolean hasDialog() {
+		return dialog != null;
 	}
 	
 	public long getChatID() {
