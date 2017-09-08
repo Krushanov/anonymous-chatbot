@@ -21,7 +21,7 @@ public class MainMenuClicked implements Command {
 
 		button.firstRow.add(new InlineKeyboardButton().setText(language.getString("searchCompanionButton")).setCallbackData("searchCompanion"));
         button.secondRow.add(new InlineKeyboardButton().setText(language.getString("selectInterestButton")).setCallbackData("selectInterest"));
-        button.thirdRow.add(new InlineKeyboardButton().setText(language.getString("companionCountButton")).setCallbackData("companionCount"));
+        button.thirdRow.add(new InlineKeyboardButton().setText(language.getString("countCompanionButton")).setCallbackData("selectCountCompanion"));
         button.fourthRow.add(new InlineKeyboardButton().setText(language.getString("selectLanguageButton")).setCallbackData("selectLanguage"));
         button.fifthRow.add(new InlineKeyboardButton().setText(language.getString("helpButton")).setCallbackData("help"));
         

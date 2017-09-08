@@ -12,12 +12,12 @@ import org.telegram.telegrambots.exceptions.TelegramApiException;
 
 import Command.CloseDialogClicked;
 import Command.Command;
-import Command.CompanionCountClicked;
 import Command.HelpButtonClicked;
 import Command.MainMenuClicked;
 import Command.SearchCompanionClicked;
 import Command.SelectInterestClicked;
 import Command.SelectLanguageClicked;
+import Command.SelectCountCompanionClicked;
 import UI.TelegramButton;
 
 public class Messager {
@@ -35,7 +35,7 @@ public class Messager {
 	//Commands
 	private Command searchCompanionCommand;
 	private Command selectInterestCommand;
-	private Command companionCountCommand;
+	private Command selectCountCompanionCommand;
 	private Command helpCommand;
 	private Command closeDialogCommand;
 	private Command mainMenuCommand;
@@ -71,7 +71,7 @@ public class Messager {
 	private void initCommands() {
 		this.searchCompanionCommand = new SearchCompanionClicked();
 		this.selectInterestCommand = new SelectInterestClicked();
-		this.companionCountCommand = new CompanionCountClicked();
+		this.selectCountCompanionCommand = new SelectCountCompanionClicked();
 		this.helpCommand = new HelpButtonClicked();
 		this.closeDialogCommand = new CloseDialogClicked();
 		this.mainMenuCommand = new MainMenuClicked();
@@ -197,7 +197,6 @@ public class Messager {
 			String callData = update.getCallbackQuery().getData();
 
 			int userID = update.getCallbackQuery().getFrom().getId();
-
 			long messageId = update.getCallbackQuery().getMessage().getMessageId();
             long chatId = update.getCallbackQuery().getMessage().getChatId();
 
@@ -264,6 +263,30 @@ public class Messager {
 				anonymousChatBot.editMessageText(button.onClick(mainMenuCommand, newMessage6, language));
 
                 break;
+
+			case "selectCountCompanion":
+				EditMessageText newMessage9 = new EditMessageText();
+				newMessage9.setChatId(chatId).setMessageId((int)(long)(messageId)).setText(language.getString("selectCountCompanion"));
+				button = new TelegramButton(anonymousChatBot);
+				anonymousChatBot.editMessageText(button.onClick(selectCountCompanionCommand, newMessage9, language));
+
+				break;
+
+			case "/setCountCompanion 2":
+			case "/setCountCompanion 3":
+			case "/setCountCompanion 4":
+			case "/setCountCompanion 5":
+				int indexCountCompanion = Integer.parseInt( callData.substring(19) );
+				EditMessageText newMessage10 = new EditMessageText();
+				newMessage10.setChatId(chatId).setMessageId((int)(long)(messageId))
+						.setText(language.getString("countCompanion") + Integer.toString(indexCountCompanion));
+				user.setCountCompanion(indexCountCompanion);
+				button = new TelegramButton(anonymousChatBot);
+				anonymousChatBot.editMessageText(button.onClick(mainMenuCommand, newMessage10, language));
+
+				System.out.println(user.getCountCompanion());
+
+				break;
 
 			case "selectLanguage":
 				EditMessageText newMessage7 = new EditMessageText();

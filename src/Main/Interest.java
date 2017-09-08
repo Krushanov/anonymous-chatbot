@@ -3,7 +3,7 @@ package Main;
 import Language.Language;
 
 public class Interest {
-    public Language language;
+    private Language language;
 	public final static int DEFAULT = 0;
 	public final static int MUSIC = 1;
     public final static int FILMS = 2;
