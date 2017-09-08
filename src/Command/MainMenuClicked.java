@@ -17,7 +17,7 @@ public class MainMenuClicked implements Command {
 
 	@Override
 	public EditMessageText execute(TelegramButton tButton, EditMessageText editMessageText, AnonymousChatBot bot, Language language) {
-		button = tButton;
+		button = new TelegramButton(bot);
 
 		button.firstRow.add(new InlineKeyboardButton().setText(language.getString("searchCompanionButton")).setCallbackData("searchCompanion"));
         button.secondRow.add(new InlineKeyboardButton().setText(language.getString("selectInterestButton")).setCallbackData("selectInterest"));
